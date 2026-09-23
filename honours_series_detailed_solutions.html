@@ -1,0 +1,1459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Honours Series: Graph Algorithms & Applications - Detailed Solutions</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- MathJax for LaTeX mathematical formatting -->
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script type="text/javascript" id="MathJax-script" async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    .nav-active {
+      background-color: #2563eb;
+      color: #ffffff;
+      font-weight: 600;
+    }
+    .badge {
+      display: inline-block;
+      padding: 0.2rem 0.55rem;
+      border-radius: 9999px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-col">
+
+  <!-- Header Banner -->
+  <header class="bg-indigo-900 text-white shadow-lg sticky top-0 z-50 border-b border-indigo-700">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+      <div>
+        <div class="flex items-center space-x-2">
+          <span class="bg-indigo-700 text-indigo-200 text-xs px-2.5 py-1 rounded font-mono uppercase tracking-wider font-semibold">Study Reference</span>
+          <span class="text-xs text-indigo-300">| Module 1 & 2 Complete Solutions</span>
+        </div>
+        <h1 class="text-2xl font-bold tracking-tight mt-1 text-white">Honours Series: Graph Algorithms and Applications</h1>
+      </div>
+      <!-- Quick Navigation Tabs -->
+      <nav class="flex space-x-2">
+        <a href="#module-1" class="px-3.5 py-1.5 rounded-lg text-sm font-medium bg-indigo-800 hover:bg-indigo-700 text-white transition">Module 1 (Network Flow)</a>
+        <a href="#module-2" class="px-3.5 py-1.5 rounded-lg text-sm font-medium bg-indigo-800 hover:bg-indigo-700 text-white transition">Module 2 (SCC & Paths)</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 grid grid-cols-1 lg:grid-cols-4 gap-8 flex-1">
+    
+    <!-- Sidebar / Sticky Table of Contents -->
+    <aside class="lg:col-span-1 hidden lg:block">
+      <div class="sticky top-24 bg-white p-4 rounded-xl shadow-sm border border-slate-200 text-sm max-h-[85vh] overflow-y-auto space-y-3">
+        <h3 class="font-bold text-slate-900 border-b pb-2 text-base">Question Index</h3>
+        
+        <div>
+          <span class="font-semibold text-xs uppercase text-indigo-600 tracking-wider">Module 1: Flow Networks</span>
+          <ul class="mt-1 space-y-1 text-slate-600 pl-2 text-xs">
+            <li><a href="#m1-q1" class="hover:text-indigo-600 block py-0.5">Q1. Blocking vs Max Flow</a></li>
+            <li><a href="#m1-q2" class="hover:text-indigo-600 block py-0.5">Q2. Min Cost Flow Applications</a></li>
+            <li><a href="#m1-q3" class="hover:text-indigo-600 block py-0.5">Q3. Level Graph & Blocking Flow</a></li>
+            <li><a href="#m1-q4" class="hover:text-indigo-600 block py-0.5">Q4. Push-Relabel Overview</a></li>
+            <li><a href="#m1-q5" class="hover:text-indigo-600 block py-0.5">Q5. Push-Relabel Execution</a></li>
+            <li><a href="#m1-q6" class="hover:text-indigo-600 block py-0.5">Q6. Max Bandwidth Allocation</a></li>
+            <li><a href="#m1-q7" class="hover:text-indigo-600 block py-0.5">Q7. Capacity Scaling Algorithm</a></li>
+            <li><a href="#m1-q8" class="hover:text-indigo-600 block py-0.5">Q8. Cycle-Canceling Algorithm</a></li>
+            <li><a href="#m1-q9" class="hover:text-indigo-600 block py-0.5">Q9. Capacity Scaling 10-unit Flow</a></li>
+            <li><a href="#m1-q10" class="hover:text-indigo-600 block py-0.5">Q10. Data Center Multi-Resource</a></li>
+            <li><a href="#m1-q11" class="hover:text-indigo-600 block py-0.5">Q11. Dynamic Edge Deletion (3,4)</a></li>
+            <li><a href="#m1-q12" class="hover:text-indigo-600 block py-0.5">Q12. Multi-Stream Bandwidth Flow</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <span class="font-semibold text-xs uppercase text-indigo-600 tracking-wider">Module 2: SCCs & Traversals</span>
+          <ul class="mt-1 space-y-1 text-slate-600 pl-2 text-xs">
+            <li><a href="#m2-q1" class="hover:text-indigo-600 block py-0.5">Q1. Definition of SCC</a></li>
+            <li><a href="#m2-q2" class="hover:text-indigo-600 block py-0.5">Q2. Testing a Given Set for SCC</a></li>
+            <li><a href="#m2-q3" class="hover:text-indigo-600 block py-0.5">Q3. Verification of {1, 2, 3}</a></li>
+            <li><a href="#m2-q4" class="hover:text-indigo-600 block py-0.5">Q4. Kosaraju's Algorithm Walkthrough</a></li>
+            <li><a href="#m2-q5" class="hover:text-indigo-600 block py-0.5">Q5. Eulerian Path Conditions</a></li>
+            <li><a href="#m2-q6" class="hover:text-indigo-600 block py-0.5">Q6. Euler vs Hamilton in 5-Vertex Graph</a></li>
+            <li><a href="#m2-q7" class="hover:text-indigo-600 block py-0.5">Q7. Eulerian Path on 4-node Graph</a></li>
+            <li><a href="#m2-q8" class="hover:text-indigo-600 block py-0.5">Q8. Tarjan's Algorithm Overview</a></li>
+            <li><a href="#m2-q9" class="hover:text-indigo-600 block py-0.5">Q9. Tarjan Low-link Computation</a></li>
+            <li><a href="#m2-q10" class="hover:text-indigo-600 block py-0.5">Q10. Tarjan on 7-Vertex Graph</a></li>
+            <li><a href="#m2-q11" class="hover:text-indigo-600 block py-0.5">Q11. Dynamic Connectivity Algorithms</a></li>
+            <li><a href="#m2-q12" class="hover:text-indigo-600 block py-0.5">Q12. Condensation Graph Construction</a></li>
+          </ul>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Content Area -->
+    <main class="lg:col-span-3 space-y-12">
+
+      <!-- ========================================================================= -->
+      <!-- MODULE 1 SECTION -->
+      <!-- ========================================================================= -->
+      <section id="module-1" class="space-y-8">
+        <div class="border-b-2 border-indigo-600 pb-3 flex items-center justify-between">
+          <h2 class="text-3xl font-extrabold text-slate-900 tracking-tight">MODULE 1: Flow Networks & Optimization</h2>
+          <span class="badge bg-indigo-100 text-indigo-800">12 Questions</span>
+        </div>
+
+        <!-- M1 Q1 -->
+        <article id="m1-q1" class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 space-y-4">
+          <div class="flex items-start justify-between">
+            <span class="badge bg-blue-100 text-blue-800">Question 1</span>
+          </div>
+          <h3 class="text-lg font-bold text-slate-900">Distinguish between blocking flow and maximum flow in Dinic's Algorithm.</h3>
+          
+          <div class="text-slate-700 leading-relaxed space-y-3">
+            <p>In network flow theory, particularly in <strong>Dinic's Algorithm</strong>, the concepts of <em>blocking flow</em> and <em>maximum flow</em> represent two entirely different stages of optimization:</p>
+            
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-sm border-collapse border border-slate-200 mt-2">
+                <thead>
+                  <tr class="bg-slate-100 text-slate-700">
+                    <th class="border border-slate-200 px-4 py-2 font-semibold">Parameter</th>
+                    <th class="border border-slate-200 px-4 py-2 font-semibold">Blocking Flow</th>
+                    <th class="border border-slate-200 px-4 py-2 font-semibold">Maximum Flow</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-200">
+                  <tr>
+                    <td class="border border-slate-200 px-4 py-2 font-medium">Domain / Scope</td>
+                    <td class="border border-slate-200 px-4 py-2">Defined strictly inside the <strong>layered Level Graph</strong> $G_L$ of the current phase.</td>
+                    <td class="border border-slate-200 px-4 py-2">Defined globally across the entire <strong>flow network</strong> $G = (V, E)$.</td>
+                  </tr>
+                  <tr>
+                    <td class="border border-slate-200 px-4 py-2 font-medium">Core Condition</td>
+                    <td class="border border-slate-200 px-4 py-2">Every directed path from source $S$ to sink $T$ in $G_L$ contains <em>at least one saturated (bottleneck) edge</em>. No further augmenting path can be found using only forward level edges.</td>
+                    <td class="border border-slate-200 px-4 py-2">No augmenting path of <em>any length</em> exists from $S$ to $T$ in the full residual graph $G_f$.</td>
+                  </tr>
+                  <tr>
+                    <td class="border border-slate-200 px-4 py-2 font-medium">Global Optimality</td>
+                    <td class="border border-slate-200 px-4 py-2"><strong>Not necessarily optimal.</strong> A blocking flow is only a local saturation of current shortest paths. Longer augmenting paths may still exist.</td>
+                    <td class="border border-slate-200 px-4 py-2"><strong>Globally optimal.</strong> By the Max-Flow Min-Cut theorem, the flow value is strictly maximal.</td>
+                  </tr>
+                  <tr>
+                    <td class="border border-slate-200 px-4 py-2 font-medium">Role in Dinic's</td>
+                    <td class="border border-slate-200 px-4 py-2">Sub-routine executed in each iteration using DFS. Each blocking flow pushes the source-to-sink distance up by at least 1.</td>
+                    <td class="border border-slate-200 px-4 py-2">The final termination output after at most $V-1$ phases of finding blocking flows.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Notes Example Diagram Box -->
+            <div class="bg-slate-50 p-4 rounded-lg border border-slate-200 mt-3">
+              <h4 class="font-semibold text-slate-800 text-sm mb-2">Illustration from Course Notes:</h4>
+              <p class="text-xs text-slate-600 mb-2">Consider $S \to A \to T$ (cap 10, cap 8) and $S \to B \to T$ (cap 5, cap 10). Finding paths saturates $A \to T$ (8 units) and $S \to B$ (5 units). Every shortest path from $S$ to $T$ is now saturated (blocked). This constitutes a <strong>blocking flow</strong> of $13$ for that layered graph.</p>
+              <div class="flex justify-center my-2">
+                <svg width="340" height="120" viewBox="0 0 340 120" class="text-slate-700 font-sans text-xs">
+                  <!-- Nodes -->
+                  <circle cx="30" cy="60" r="16" fill="#e0e7ff" stroke="#4338ca" stroke-width="2"/>
+                  <text x="30" y="64" text-anchor="middle" font-weight="bold">S</text>
+                  
+                  <circle cx="150" cy="25" r="16" fill="#e0e7ff" stroke="#4338ca" stroke-width="2"/>
+                  <text x="150" y="29" text-anchor="middle" font-weight="bold">A</text>
+
+                  <circle cx="150" cy="95" r="16" fill="#e0e7ff" stroke="#4338ca" stroke-width="2"/>
+                  <text x="150" y="99" text-anchor="middle" font-weight="bold">B</text>
+
+                  <circle cx="290" cy="60" r="16" fill="#e0e7ff" stroke="#4338ca" stroke-width="2"/>
+                  <text x="290" y="64" text-anchor="middle" font-weight="bold">T</text>
+
+                  <!-- Edges -->
+                  <line x1="46" y1="52" x2="134" y2="30" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/>
+                  <text x="80" y="34" fill="#047857" font-weight="bold">flow: 8/10</text>
+
+                  <line x1="166" y1="30" x2="274" y2="52" stroke="#dc2626" stroke-width="2.5"/>
+                  <text x="220" y="34" fill="#dc2626" font-weight="bold">8/8 (BLOCKED)</text>
+
+                  <line x1="46" y1="68" x2="134" y2="90" stroke="#dc2626" stroke-width="2.5"/>
+                  <text x="75" y="94" fill="#dc2626" font-weight="bold">5/5 (BLOCKED)</text>
+
+                  <line x1="166" y1="90" x2="274" y2="68" stroke="#64748b" stroke-width="2"/>
+                  <text x="225" y="94" fill="#047857" font-weight="bold">flow: 5/10</text>
+                </svg>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- M1 Q2 -->
+        <article id="m1-q2" class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 space-y-4">
+          <div class="flex items-start justify-between">
+            <span class="badge bg-blue-100 text-blue-800">Question 2</span>
+          </div>
+          <h3 class="text-lg font-bold text-slate-900">State any three real-world applications of Minimum Cost Flow algorithms.</h3>
+          
+          <div class="text-slate-700 leading-relaxed space-y-3">
+            <p>Minimum Cost Flow (MCF) determines the most economical way to route a specified volume of flow through a capacity-constrained directed graph. Real-world applications include:</p>
+            
+            <ol class="list-decimal pl-5 space-y-2">
+              <li>
+                <strong>Supply Chain Logistics and Warehouse Distribution:</strong> 
+                Transporting commercial inventory from regional fulfillment warehouses to retail centers. Nodes represent factories and customer locations, edge capacities denote freight carrier capacity, and edge costs signify fuel, shipping, and toll charges per container (e.g., as noted in the class problem: Amazon routing packages with the lowest fuel expense).
+              </li>
+              <li>
+                <strong>Telecommunication & Content Delivery Network (CDN) Routing:</strong>
+                Routing data packets or media streams through internet transit backbones. Vertices are transit routers/switches; capacities prevent link saturation, while costs represent propagation delay or contractual peering cost per gigabit.
+              </li>
+              <li>
+                <strong>Airline Fleet and Crew Scheduling:</strong>
+                Assigning aircraft and qualified flight personnel to multi-leg daily flight legs while satisfying flight departure constraints and crew work-hour limitations at minimal lodging and operational overhead.
+              </li>
+            </ol>
+          </div>
+        </article>
+
+        <!-- M1 Q3 -->
+        <article id="m1-q3" class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 space-y-4">
+          <div class="flex items-start justify-between">
+            <span class="badge bg-blue-100 text-blue-800">Question 3</span>
+          </div>
+          <h3 class="text-lg font-bold text-slate-900">Explain the level graph and blocking flow concepts in Dinic's Algorithm.</h3>
+          
+          <div class="text-slate-700 leading-relaxed space-y-4">
+            <p>Dinic's algorithm improves upon classical Ford-Fulkerson by structuring flow augmentation into synchronized phases consisting of two key primitives:</p>
+            
+            <div class="bg-amber-50 border-l-4 border-amber-500 p-4 rounded-r-lg">
+              <h4 class="font-bold text-amber-900 text-sm">1. Level Graph ($G_L$) via BFS</h4>
+              <p class="text-xs text-amber-800 mt-1">
+                A <strong>Level Graph</strong> is constructed by executing Breadth-First Search (BFS) starting from source node $S$ in the residual graph $G_f$. Every vertex $u$ is assigned a level:
+                $$\text{level}[u] = \text{shortest distance (in edge count) from } S \text{ to } u$$
+                <strong>Pruning Rule:</strong> Dinic retains <em>only</em> edges that progress strictly to the adjacent forward level:
+                $$E_L = \{ (u, v) \in E_f \mid \text{level}[v] = \text{level}[u] + 1 \text{ and } c_f(u, v) > 0 \}$$
+                Edges within the same level ($\text{level}[u] = \text{level}[v]$) or back edges ($\text{level}[v] \le \text{level}[u]$) are eliminated, preventing redundant cycles.
+              </p>
+            </div>
+
+            <div class="bg-emerald-50 border-l-4 border-emerald-500 p-4 rounded-r-lg">
+              <h4 class="font-bold text-emerald-900 text-sm">2. Blocking Flow via DFS</h4>
+              <p class="text-xs text-emerald-800 mt-1">
+                Once $G_L$ is formed, multiple augmenting paths of the <em>same minimum length</em> are explored simultaneously using Depth-First Search (DFS). When flow is routed through an edge up to its residual capacity, that edge becomes saturated (residual capacity = 0) and is removed from $G_L$. DFS terminates when no forward path from $S$ to $T$ exists in $G_L$. This combined pushed volume constitutes a <strong>Blocking Flow</strong>.
+              </p>
+            </div>
+
+            <!-- Notes Walkthrough -->
+            <div class="border border-slate-200 rounded-lg p-3 bg-slate-50 text-xs">
+              <p class="font-semibold text-slate-800 mb-1">Dinic's Algorithmic Convergence:</p>
+              <p>In each phase, after finding a blocking flow, the distance $\text{level}[T]$ strictly increases: $\text{level}_{i+1}[T] > \text{level}_i[T]$. Thus, Dinic terminates in at most $|V|-1$ phases, yielding an overall worst-case complexity of $\mathcal{O}(V^2 E)$ (compared to Edmonds-Karp's $\mathcal{O}(V E^2)$).</p>
+            </div>
+          </div>
+        </article>
+
+        <!-- M1 Q4 -->
+        <article id="m1-q4" class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 space-y-4">
+          <div class="flex items-start justify-between">
+            <span class="badge bg-blue-100 text-blue-800">Question 4</span>
+          </div>
+          <h3 class="text-lg font-bold text-slate-900">Describe the Push-Relabel algorithm and discuss its advantages over augmenting-path methods.</h3>
+          
+          <div class="text-slate-700 leading-relaxed space-y-4">
+            <p>Introduced by Andrew V. Goldberg and Robert Tarjan, the <strong>Push-Relabel</strong> (Preflow-Push) algorithm departs fundamentally from the augmenting-path paradigm by relaxing the strict global flow conservation during execution.</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div class="p-3 bg-slate-50 border border-slate-200 rounded-lg text-xs space-y-1">
+                <span class="font-bold text-slate-800 text-sm">Preflow & Excess Flow</span>
+                <p>Instead of maintaining net flow $= 0$ at all intermediate nodes, each node $u \in V \setminus \{S, T\}$ is allowed an excess flow:</p>
+                $$e(u) = f_{in}(u) - f_{out}(u) \ge 0$$
+                <p>A vertex with $e(u) > 0$ is called an <strong>active vertex</strong>.</p>
+              </div>
+
+              <div class="p-3 bg-slate-50 border border-slate-200 rounded-lg text-xs space-y-1">
+                <span class="font-bold text-slate-800 text-sm">Height / Label Function</span>
+                <p>Each vertex has an integer height $h(u)$. Initialized to $h(S) = |V|$, $h(u) = 0$ for all others. Valid labeling requires:</p>
+                $$h(u) \le h(v) + 1 \quad \text{for every residual edge } (u,v) \in E_f$$
+                <p>Flow is pushed strictly "downhill", i.e., from height $h(u)$ to $h(u)-1$.</p>
+              </div>
+            </div>
+
+            <h4 class="font-bold text-slate-800 text-sm">Two Fundamental Operations:</h4>
+            <ul class="list-disc pl-5 text-sm space-y-1">
+              <li><strong>Push$(u, v)$:</strong> Applicable if $u$ is active ($e(u) > 0$), $c_f(u,v) > 0$, and $h(u) = h(v) + 1$. Push amount $\Delta = \min(e(u), c_f(u, v))$.</li>
+              <li><strong>Relabel$(u)$:</strong> Applicable if $u$ is active and for all residual neighbors $(u, v)$, $h(u) \le h(v)$. Increases height: $h(u) = 1 + \min \{ h(v) \mid (u,v) \in E_f \}$.</li>
+            </ul>
+
+            <h4 class="font-bold text-slate-800 text-sm">Advantages over Augmenting-Path Methods (Ford-Fulkerson, Edmonds-Karp):</h4>
+            <div class="overflow-x-auto text-xs">
+              <table class="w-full text-left border border-slate-200">
+                <thead class="bg-slate-100">
+                  <tr>
+                    <th class="p-2 border">Feature</th>
+                    <th class="p-2 border">Augmenting-Path Methods</th>
+                    <th class="p-2 border">Push-Relabel Algorithm</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="p-2 border font-medium">Search Horizon</td>
+                    <td class="p-2 border">Global: Searches for complete source-to-sink path across the whole graph per step.</td>
+                    <td class="p-2 border">Local: Operates strictly on local node neighborhoods via push and relabel.</td>
+                  </tr>
+                  <tr>
+                    <td class="p-2 border font-medium">Parallelizability</td>
+                    <td class="p-2 border">Difficult: Searching full paths locks large sub-networks.</td>
+                    <td class="p-2 border">Highly parallelizable: Active nodes can independently push/relabel locally.</td>
+                  </tr>
+                  <tr>
+                    <td class="p-2 border font-medium">Worst-Case Runtime</td>
+                    <td class="p-2 border">$\mathcal{O}(V E^2)$ for Edmonds-Karp.</td>
+                    <td class="p-2 border">$\mathcal{O}(V^2 E)$ generic, $\mathcal{O}(V^3)$ FIFO, down to $\mathcal{O}(V^2 \sqrt{E})$ with highest-label selection.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </article>
+
+        <!-- M1 Q5 -->
+        <article id="m1-q5" class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 space-y-4">
+          <div class="flex items-start justify-between">
+            <span class="badge bg-blue-100 text-blue-800">Question 5</span>
+          </div>
+          <h3 class="text-lg font-bold text-slate-900">Push-Relabel Execution on Communication Network: Initialization, Push, Relabel, and Comparative Analysis.</h3>
+          
+          <div class="text-slate-700 leading-relaxed space-y-4 text-sm">
+            <p>We execute Push-Relabel on the canonical benchmark network documented in the notes:</p>
+            <div class="bg-slate-100 p-3 rounded-md font-mono text-xs">
+              Vertices: {S, A, B, T}, with |V| = 4.<br>
+              Capacities: c(S, A) = 10, c(S, B) = 5, c(A, T) = 10, c(B, T) = 10.
+            </div>
+
+            <!-- SVG Diagram -->
+            <div class="flex justify-center py-2">
+              <svg width="360" height="130" viewBox="0 0 360 130" class="text-slate-800 font-sans text-xs">
+                <circle cx="40" cy="65" r="18" fill="#e2e8f0" stroke="#1e293b" stroke-width="2"/>
+                <text x="40" y="70" text-anchor="middle" font-weight="bold">S</text>
+                
+                <circle cx="160" cy="30" r="18" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+                <text x="160" y="35" text-anchor="middle" font-weight="bold">A</text>
+
+                <circle cx="160" cy="100" r="18" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+                <text x="160" y="105" text-anchor="middle" font-weight="bold">B</text>
+
+                <circle cx="280" cy="65" r="18" fill="#e2e8f0" stroke="#1e293b" stroke-width="2"/>
+                <text x="280" y="70" text-anchor="middle" font-weight="bold">T</text>
+
+                <!-- Directed Edges -->
+                <line x1="58" y1="58" x2="142" y2="36" stroke="#475569" stroke-width="2"/>
+                <text x="95" y="40" fill="#1e40af" font-weight="bold">cap: 10</text>
+
+                <line x1="58" y1="72" x2="142" y2="94" stroke="#475569" stroke-width="2"/>
+                <text x="95" y="96" fill="#1e40af" font-weight="bold">cap: 5</text>
+
+                <line x1="178" y1="36" x2="262" y2="58" stroke="#475569" stroke-width="2"/>
+                <text x="225" y="40" fill="#1e40af" font-weight="bold">cap: 10</text>
+
+                <line x1="178" y1="94" x2="262" y2="72" stroke="#475569" stroke-width="2"/>
+                <text x="225" y="96" fill="#1e40af" font-weight="bold">cap: 10</text>
+              </svg>
+            </div>
+
+            <h4 class="font-bold text-slate-800">Step-by-Step Step Execution:</h4>
+            
+            <div class="space-y-2 border-l-2 border-indigo-400 pl-4">
+              <div>
+                <strong>Step 1: Initialization</strong>
+                <ul class="list-disc pl-4 text-xs mt-1 space-y-0.5">
+                  <li>Set height $h(S) = |V| = 4$. For intermediate and sink nodes: $h(A) = h(B) = h(T) = 0$.</li>
+                  <li>Initialize preflow from $S$: saturate all outgoing edges from source.</li>
+                  <li>$f(S, A) = 10 \implies e(A) = 10$, residual $c_f(S,A) = 0$, reverse residual $c_f(A, S) = 10$.</li>
+                  <li>$f(S, B) = 5 \implies e(B) = 5$, residual $c_f(S,B) = 0$, reverse residual $c_f(B, S) = 5$.</li>
+                  <li>Excess vector: $e(A) = 10, e(B) = 5, e(T) = 0$. Active nodes: $\{A, B\}$.</li>
+                </ul>
+              </div>
+
+              <div>
+                <strong>Step 2: Processing Active Node $A$</strong>
+                <p class="text-xs mt-0.5">To push to neighbor $T$, we must satisfy $h(A) = h(T) + 1$. Currently $h(A) = 0$ and $h(T) = 0$. Push is illegal ($0 \neq 0 + 1$).</p>
+                <p class="text-xs font-semibold text-indigo-700">Relabel $A$: $h(A) = 1 + \min \{ h(T) \} = 1 + 0 = 1$.</p>
+                <p class="text-xs">Now $h(A) = 1 > h(T) = 0$. Push condition met.</p>
+                <p class="text-xs font-semibold text-emerald-700">Push$(A, T)$: $\Delta = \min(e(A), c_f(A, T)) = \min(10, 10) = 10$.</p>
+                <p class="text-xs">Updated: $e(A) = 10 - 10 = 0$, $e(T) = 10$, $f(A, T) = 10$. Node $A$ is now inactive.</p>
+              </div>
+
+              <div>
+                <strong>Step 3: Processing Active Node $B$</strong>
+                <p class="text-xs mt-0.5">Check Push$(B, T)$: $h(B) = 0$ and $h(T) = 0$. Push condition fails.</p>
+                <p class="text-xs font-semibold text-indigo-700">Relabel $B$: $h(B) = 1 + \min \{ h(T) \} = 1 + 0 = 1$.</p>
+                <p class="text-xs font-semibold text-emerald-700">Push$(B, T)$: $\Delta = \min(e(B), c_f(B, T)) = \min(5, 10) = 5$.</p>
+                <p class="text-xs">Updated: $e(B) = 5 - 5 = 0$, $e(T) = 10 + 5 = 15$, $f(B, T) = 5$. Node $B$ is now inactive.</p>
+              </div>
+
+              <div>
+                <strong>Step 4: Termination</strong>
+                <p class="text-xs">Active nodes in $V \setminus \{S, T\}$ is empty ($\emptyset$). The algorithm terminates.</p>
+                <p class="text-xs font-bold text-slate-800">Final Maximum Flow = $f(A, T) + f(B, T) = 10 + 5 = 15\text{ units}$.</p>
+              </div>
+            </div>
+
+            <div class="bg-slate-50 p-3 rounded-lg border border-slate-200">
+              <h5 class="font-bold text-slate-800 text-xs mb-1">Efficiency & Large Network Trade-offs:</h5>
+              <p class="text-xs text-slate-600">
+                <strong>Advantages:</strong> Excellent for dense, high-concurrency topologies where finding long global paths creates severe lock contention. Runtime is immune to edge capacity magnitudes ($\mathcal{O}(V^3)$ vs Ford-Fulkerson's capacity dependence).<br>
+                <strong>Limitations:</strong> Excess flow temporarily trapped in subgraphs may require successive relabels up to $2|V|-1$ to route back to $S$, inducing computational overhead on simple sparse chains where BFS search is trivial.
+              </p>
+            </div>
+          </div>
+        </article>
+
+        <!-- M1 Q6 -->
+        <article id="m1-q6" class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 space-y-4">
+          <div class="flex items-start justify-between">
+            <span class="badge bg-blue-100 text-blue-800">Question 6</span>
+          </div>
+          <h3 class="text-lg font-bold text-slate-900">Maximum Data Flow in Bandwidth-Constrained Network: Bottleneck Identification and Achievable Throughput.</h3>
+          
+          <div class="text-slate-700 leading-relaxed space-y-3 text-sm">
+            <p>Using the multi-path topology analyzed in the lecture notes:</p>
+            <div class="bg-slate-100 p-2.5 rounded font-mono text-xs">
+              Links: S &to; A (cap 16), S &to; B (cap 13), A &to; C (cap 12), B &to; C (cap 9), C &to; T (cap 20).
+            </div>
+
+            <!-- Canvas / SVG -->
+            <div class="flex justify-center my-1">
+              <svg width="380" height="130" viewBox="0 0 380 130" class="text-xs font-sans">
+                <circle cx="40" cy="65" r="16" fill="#e2e8f0" stroke="#334155" stroke-width="2"/>
+                <text x="40" y="69" text-anchor="middle" font-weight="bold">S</text>
+
+                <circle cx="130" cy="25" r="16" fill="#f1f5f9" stroke="#334155" stroke-width="1.5"/>
+                <text x="130" y="29" text-anchor="middle" font-weight="bold">A</text>
+
+                <circle cx="130" cy="105" r="16" fill="#f1f5f9" stroke="#334155" stroke-width="1.5"/>
+                <text x="130" y="109" text-anchor="middle" font-weight="bold">B</text>
+
+                <circle cx="230" cy="65" r="16" fill="#f1f5f9" stroke="#334155" stroke-width="1.5"/>
+                <text x="230" y="69" text-anchor="middle" font-weight="bold">C</text>
+
+                <circle cx="330" cy="65" r="16" fill="#e2e8f0" stroke="#334155" stroke-width="2"/>
+                <text x="330" y="69" text-anchor="middle" font-weight="bold">T</text>
+
+                <!-- Arrows -->
+                <line x1="55" y1="58" x2="115" y2="32" stroke="#64748b" stroke-width="1.5"/>
+                <text x="80" y="38" fill="#1e293b">16</text>
+
+                <line x1="55" y1="72" x2="115" y2="98" stroke="#64748b" stroke-width="1.5"/>
+                <text x="80" y="96" fill="#1e293b">13</text>
+
+                <line x1="146" y1="32" x2="214" y2="58" stroke="#64748b" stroke-width="1.5"/>
+                <text x="180" y="38" fill="#1e293b">12</text>
+
+                <line x1="146" y1="98" x2="214" y2="72" stroke="#64748b" stroke-width="1.5"/>
+                <text x="180" y="96" fill="#1e293b">9</text>
+
+                <line x1="246" y1="65" x2="314" y2="65" stroke="#64748b" stroke-width="2"/>
+                <text x="275" y="58" fill="#1e293b">20</text>
+              </svg>
+            </div>
+
+            <div class="space-y-2">
+              <p><strong>Phase 1: Augmentation Path 1 ($S \to A \to C \to T$)</strong></p>
+              <ul class="list-disc pl-5 text-xs">
+                <li>Available link capacities: $c(S, A)=16, c(A, C)=12, c(C, T)=20$.</li>
+                <li>Bottleneck capacity $\Delta_1 = \min(16, 12, 20) = 12\text{ units}$.</li>
+                <li>Push 12 units. Residuals: $c_f(S, A)=4, c_f(A, C)=0\text{ (bottleneck saturated)}, c_f(C, T)=20-12=8$.</li>
+              </ul>
+
+              <p><strong>Phase 2: Augmentation Path 2 ($S \to B \to C \to T$)</strong></p>
+              <ul class="list-disc pl-5 text-xs">
+                <li>Available link capacities: $c(S, B)=13, c(B, C)=9, c_f(C, T)=8$.</li>
+                <li>Bottleneck capacity $\Delta_2 = \min(13, 9, 8) = 8\text{ units}$.</li>
+                <li>Push 8 units. Residuals: $c_f(S, B)=5, c_f(B, C)=1, c_f(C, T)=0\text{ (bottleneck saturated)}$.</li>
+              </ul>
+            </div>
+
+            <div class="bg-indigo-50 border border-indigo-200 p-3 rounded text-xs space-y-1">
+              <p><strong>Bottleneck Links:</strong> Edge $(A, C)$ is fully saturated at 12 units, and Edge $(C, T)$ is fully saturated at 20 units ($12 + 8$).</p>
+              <p><strong>Final Maximum Achievable Bandwidth:</strong> $\text{Flow}_{\max} = 12 + 8 = \mathbf{20\text{ units/sec}}$.</p>
+              <p>Since the cut separating $\{S, A, B, C\}$ from $\{T\}$ has capacity $c(C, T) = 20$, no additional data can reach sink $T$.</p>
+            </div>
+          </div>
+        </article>
+
+        <!-- M1 Q7 -->
+        <article id="m1-q7" class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 space-y-4">
+          <div class="flex items-start justify-between">
+            <span class="badge bg-blue-100 text-blue-800">Question 7</span>
+          </div>
+          <h3 class="text-lg font-bold text-slate-900">Explain the Capacity Scaling Algorithm for Minimum Cost Flow.</h3>
+          
+          <div class="text-slate-700 leading-relaxed space-y-3 text-sm">
+            <p>The <strong>Capacity Scaling Algorithm</strong> solves the Minimum Cost Flow problem by restricting augmentations to paths capable of transmitting significant flow, eliminating the pitfall of taking exponentially many tiny 1-unit steps.</p>
+            
+            <h4 class="font-bold text-slate-800 text-sm">Key Principles & Phases:</h4>
+            <ol class="list-decimal pl-5 space-y-2 text-xs">
+              <li>
+                <strong>Scaling Parameter ($\Delta$):</strong> Let $U = \max_{(u,v) \in E} c(u, v)$ be the maximum edge capacity. The algorithm initializes $\Delta = 2^{\lfloor \log_2 U \rfloor}$ (the largest power of 2 not exceeding $U$).
+              </li>
+              <li>
+                <strong>$\Delta$-Residual Network ($G_f(\Delta)$):</strong> In each phase, the algorithm constructs the sub-network containing only residual edges whose available capacity is at least $\Delta$:
+                $$E_f(\Delta) = \{ (u, v) \in E_f \mid c_f(u, v) \ge \Delta \}$$
+              </li>
+              <li>
+                <strong>Shortest Augmenting Path in $G_f(\Delta)$:</strong >Using Dijkstra's algorithm (with node potentials $\pi(i)$) or Bellman-Ford, it locates the <em>minimum-cost directed path</em> from source to sink in $G_f(\Delta)$ and pushes flow.
+              </li>
+              <li>
+                <strong>Scaling Down:</strong> When no augmenting path exists with capacity $\ge \Delta$, the parameter is halved:
+                $$\Delta \leftarrow \lfloor \Delta / 2 \rfloor$$
+                The process repeats until $\Delta = 1$, at which point all remaining standard augmentations complete.
+              </li>
+            </ol>
+            <div class="bg-slate-50 border-l-4 border-indigo-500 p-3 text-xs">
+              <strong>Time Complexity:</strong> The algorithm finishes in $\mathcal{O}(\log U)$ scaling phases. The overall running time is weakly polynomial: $\mathcal{O}(E \log U (E + V \log V))$, dramatically faster than unscaled cycle canceling.
+            </div>
+          </div>
+        </article>
+
+        <!-- M1 Q8 -->
+        <article id="m1-q8" class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 space-y-4">
+          <div class="flex items-start justify-between">
+            <span class="badge bg-blue-100 text-blue-800">Question 8</span>
+          </div>
+          <h3 class="text-lg font-bold text-slate-900">Cycle-Canceling Algorithm: Identifying Negative Cycles, Residual Updates, and Cost Optimization.</h3>
+          
+          <div class="text-slate-700 leading-relaxed space-y-3 text-sm">
+            <p>We work through the classic problem solved in the class notes (Week 8, Feb 16–22):</p>
+            <div class="bg-slate-50 p-3 rounded border border-slate-200 text-xs">
+              <strong>Problem Specification:</strong> Transport $4\text{ units}$ of flow from $S$ to $T$.<br>
+              Edges $(c, \text{cost})$: $S \to A\,(4, 3)$, $A \to T\,(4, 2)$, $S \to B\,(4, 2)$, $B \to T\,(4, 4)$, and cross-link $A \to B\,(4, -3)$.
+            </div>
+
+            <div class="space-y-3">
+              <div>
+                <strong class="text-slate-900">Step 1: Establish Initial Feasible Flow</strong>
+                <p class="text-xs">Send 4 units along the upper route $S \to A \to T$.</p>
+                <ul class="list-disc pl-5 text-xs">
+                  <li>$f(S, A) = 4$, $f(A, T) = 4$. Flow = 4 units (satisfies demand).</li>
+                  <li>Cost per unit along $S \to A \to T = 3 + 2 = 5$.</li>
+                  <li>Initial Total Cost $= 4 \times 5 = \mathbf{20}$.</li>
+                </ul>
+              </div>
+
+              <div>
+                <strong class="text-slate-900">Step 2: Construct Residual Graph $G_f$</strong>
+                <p class="text-xs">Flow passing forward creates reverse edges with negated costs:</p>
+                <ul class="list-disc pl-5 text-xs">
+                  <li>Forward $A \to T$ is full $\implies$ reverse edge $T \to A$ with $c_f = 4$, $\text{cost} = -2$.</li>
+                  <li>Forward $S \to A$ is full $\implies$ reverse edge $A \to S$ with $c_f = 4$, $\text{cost} = -3$.</li>
+                  <li>Unused edge $A \to B$ with $c_f = 4$, $\text{cost} = -3$.</li>
+                  <li>Unused edge $B \to T$ with $c_f = 4$, $\text{cost} = 4$.</li>
+                  <li>Unused edge $S \to B$ with $c_f = 4$, $\text{cost} = 2$.</li>
+                </ul>
+              </div>
+
+              <div>
+                <strong class="text-slate-900">Step 3: Identify Negative Cost Cycle</strong>
+                <p class="text-xs">Trace cycle $C = A \to B \to T \to A$ in the residual graph:</p>
+                <ul class="list-disc pl-5 text-xs">
+                  <li>Edge $A \to B$: $\text{cost} = -3$</li>
+                  <li>Edge $B \to T$: $\text{cost} = +4$</li>
+                  <li>Reverse edge $T \to A$: $\text{cost} = -2$</li>
+                  <li><strong>Cycle Cost:</strong> $(-3) + 4 + (-2) = \mathbf{-1} < 0$ (Negative Cycle Detected!).</li>
+                </ul>
+              </div>
+
+              <div>
+                <strong class="text-slate-900">Step 4: Push Flow around Cycle</strong>
+                <p class="text-xs">Capacity of cycle $\delta = \min(c_f(A, B), c_f(B, T), c_f(T, A)) = \min(4, 4, 4) = 4\text{ units}$.</p>
+                <p class="text-xs">Augmenting 4 units around $A \to B \to T \to A$ effectively cancels 4 units on $A \to T$ and establishes 4 units on $A \to B$ and $B \to T$.</p>
+              </div>
+
+              <div class="bg-emerald-50 border border-emerald-200 p-3 rounded text-xs space-y-1">
+                <p><strong>New Routing:</strong> $S \to A \to B \to T$</p>
+                <p><strong>Cost per unit:</strong> $\text{cost}(S, A) + \text{cost}(A, B) + \text{cost}(B, T) = 3 + (-3) + 4 = 4$.</p>
+                <p><strong>Final Total Cost:</strong> $4 \times 4 = \mathbf{16}$.</p>
+                <p><strong>Cost Savings:</strong> $20 - 16 = \mathbf{4}$. Since no negative cycles remain in $G_f$, the solution is strictly minimal.</p>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- M1 Q9 -->
+        <article id="m1-q9" class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 space-y-4">
+          <div class="flex items-start justify-between">
+            <span class="badge bg-blue-100 text-blue-800">Question 9</span>
+          </div>
+          <h3 class="text-lg font-bold text-slate-900">Capacity Scaling Algorithm: Step-by-Step 10-unit Minimum Cost Flow Execution.</h3>
+          
+          <div class="text-slate-700 leading-relaxed space-y-4 text-sm">
+            <div class="bg-slate-100 p-3 rounded font-mono text-xs">
+              Network Edges (capacity, cost):<br>
+              S &to; A (8, 2),  S &to; B (6, 3),  A &to; B (4, 1),<br>
+              A &to; T (5, 4),  B &to; T (7, 2),  B &to; A (2, 3)<br>
+              Target Flow required from S to T = 10 units.
+            </div>
+
+            <p><strong>Maximum capacity $U = 8$.</strong> Initial scale factor $\Delta = 2^{\lfloor \log_2 8 \rfloor} = 8$.</p>
+
+            <div class="border border-slate-200 rounded-lg p-3 space-y-2 bg-slate-50 text-xs">
+              <h5 class="font-bold text-indigo-700 text-sm">Phase 1: Scaling Factor $\Delta = 8$</h5>
+              <p>Edges with capacity $\ge 8$: only $S \to A$ (cap 8). But sink $T$ cannot be reached with edges $\ge 8$ (max edge to $T$ is $B \to T$ of cap 7, $A \to T$ is 5). No augmenting path exists in $G_f(8)$. Flow pushed = 0.</p>
+            </div>
+
+            <div class="border border-slate-200 rounded-lg p-3 space-y-2 bg-slate-50 text-xs">
+              <h5 class="font-bold text-indigo-700 text-sm">Phase 2: Scaling Factor $\Delta = 4$</h5>
+              <p>Edges in $G_f(4)$: $S \to A\,(8, 2)$, $S \to B\,(6, 3)$, $A \to B\,(4, 1)$, $A \to T\,(5, 4)$, $B \to T\,(7, 2)$.</p>
+              <p>Evaluate available paths from $S$ to $T$ in $G_f(4)$:</p>
+              <ul class="list-disc pl-4 space-y-1">
+                <li>Path 1 ($S \to B \to T$): Cost $= 3 + 2 = 5$. Capacity bottleneck $= \min(6, 7) = 6$.</li>
+                <li>Path 2 ($S \to A \to B \to T$): Cost $= 2 + 1 + 2 = 5$. Capacity bottleneck $= \min(8, 4, 7) = 4$.</li>
+                <li>Path 3 ($S \to A \to T$): Cost $= 2 + 4 = 6$.</li>
+              </ul>
+              <p><strong>Augmentation 1:</strong> Select cheapest path $S \to A \to B \to T$ (cost 5). Push flow $\delta_1 = 4$ units.</p>
+              <p>Residual changes: $c_f(S, A) = 8 - 4 = 4$, $c_f(A, B) = 4 - 4 = 0$ (saturated), $c_f(B, T) = 7 - 4 = 3$. Reverse edges added.</p>
+              <p><strong>Augmentation 2:</strong> In updated $G_f(4)$, path $S \to B \to T$ now has bottleneck $\min(c_f(S,B), c_f(B,T)) = \min(6, 3) = 3 < 4$. Path $S \to A \to T$ has bottleneck $\min(c_f(S,A), c_f(A,T)) = \min(4, 5) = 4$.</p>
+              <p>Push $\delta_2 = 4$ units along $S \to A \to T$ (cost $2 + 4 = 6$).</p>
+              <p>Residual changes: $c_f(S, A) = 4 - 4 = 0$, $c_f(A, T) = 5 - 4 = 1$. Total accumulated flow $= 4 + 4 = 8$ units.</p>
+            </div>
+
+            <div class="border border-slate-200 rounded-lg p-3 space-y-2 bg-slate-50 text-xs">
+              <h5 class="font-bold text-indigo-700 text-sm">Phase 3: Scaling Factor $\Delta = 2$</h5>
+              <p>Target remaining flow: $10 - 8 = 2$ units.</p>
+              <p>Examine $G_f(2)$ paths with $c_f \ge 2$:</p>
+              <ul class="list-disc pl-4 space-y-1">
+                <li>Edge $S \to B$ has residual $c_f = 6$.</li>
+                <li>Edge $B \to T$ has residual $c_f = 3 \ge 2$.</li>
+                <li>Path $S \to B \to T$: Cost $= 3 + 2 = 5$. Bottleneck $= \min(6, 3) = 3$.</li>
+              </ul>
+              <p><strong>Augmentation 3:</strong> Push remaining needed $2$ units along $S \to B \to T$.</p>
+              <p>Residual changes: $c_f(S, B) = 6 - 2 = 4$, $c_f(B, T) = 3 - 2 = 1$. Total flow reached $= 10$ units.</p>
+            </div>
+
+            <!-- Cost Summary Table -->
+            <div class="bg-indigo-50 border border-indigo-200 p-3 rounded text-xs space-y-1">
+              <span class="font-bold text-indigo-900">Summary of Final Flow Decomposition:</span>
+              <ul class="list-disc pl-4 space-y-0.5">
+                <li>$4\text{ units}$ via $S \to A \to B \to T$: cost $= 4 \times (2 + 1 + 2) = 4 \times 5 = 20$.</li>
+                <li>$4\text{ units}$ via $S \to A \to T$: cost $= 4 \times (2 + 4) = 4 \times 6 = 24$.</li>
+                <li>$2\text{ units}$ via $S \to B \to T$: cost $= 2 \times (3 + 2) = 2 \times 5 = 10$.</li>
+              </ul>
+              <p class="font-bold text-slate-800 pt-1 border-t border-indigo-200">
+                Total Minimum Cost = $20 + 24 + 10 = \mathbf{54}$.
+              </p>
+            </div>
+          </div>
+        </article>
+
+        <!-- M1 Q10 -->
+        <article id="m1-q10" class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 space-y-4">
+          <div class="flex items-start justify-between">
+            <span class="badge bg-blue-100 text-blue-800">Question 10</span>
+          </div>
+          <h3 class="text-lg font-bold text-slate-900">Data Center Multi-Resource Allocation via Flow Networks: Formulation, Bottleneck Identification, and Maximum Feasible Workload.</h3>
+          
+          <div class="text-slate-700 leading-relaxed space-y-3 text-sm">
+            <p>Allocating heterogeneous compute resources (CPU cores, RAM gigabytes, and network bandwidth) across competing server applications is modeled via a <strong>Layered Bipartite Flow Network</strong>.</p>
+            
+            <div class="space-y-2">
+              <h4 class="font-bold text-slate-800 text-xs uppercase tracking-wide">Network Construction:</h4>
+              <ol class="list-decimal pl-5 text-xs space-y-1.5">
+                <li><strong>Supersource ($S$):</strong> Connects to every application node $A_i$ with capacity equal to the application's demand workload $D_i$.</li>
+                <li><strong>Application Layer ($A_i$):</strong> Connects to compatible physical server resource slots $S_{j, r}$ (where $r \in \{\text{CPU}, \text{RAM}, \text{BW}\}$).</li>
+                <li><strong>Node-Splitting for Multi-Resource Constraints:</strong> To ensure a server $j$ does not exceed its physical capacity along any dimension, server nodes are subdivided into distinct resource-capacity vertices with internal gadget edges:
+                  $$c(\text{Server}_j^{\text{CPU\_in}}, \text{Server}_j^{\text{CPU\_out}}) = \text{Total CPU Cores of Server } j$$
+                </li>
+                <li><strong>Supersink ($T$):</strong> Connects each server's egress to $T$ with link capacities matching host interface line rates.</li>
+              </ol>
+            </div>
+
+            <div class="bg-slate-50 border border-slate-200 p-3 rounded-lg text-xs space-y-2">
+              <p class="font-semibold text-slate-800">Bottleneck Detection & Max Feasible Allocation:</p>
+              <p>Applying the <strong>Max-Flow Min-Cut Theorem</strong>, the maximum feasible allocation equals the capacity of the minimum cut $(S^*, T^*)$. Any edge $(u, v)$ crossing the minimum cut with $u \in S^*, v \in T^*$ having zero residual capacity represents a hard <strong>bottleneck resource</strong> (e.g., exhausted RAM on Server 2 or saturated uplink bandwidth on Server 1).</p>
+            </div>
+          </div>
+        </article>
+
+        <!-- M1 Q11 -->
+        <article id="m1-q11" class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 space-y-4">
+          <div class="flex items-start justify-between">
+            <span class="badge bg-blue-100 text-blue-800">Question 11</span>
+          </div>
+          <h3 class="text-lg font-bold text-slate-900">Dynamic Connectivity on Graph with Edges (1,2), (2,3), (3,4), (4,5): Edge Deletion of (3,4) and Connectivity Status.</h3>
+          
+          <div class="text-slate-700 leading-relaxed space-y-3 text-sm">
+            <p>Consider an undirected graph $G = (V, E)$ where $V = \{1, 2, 3, 4, 5\}$ and edges $E = \{(1,2), (2,3), (3,4), (4,5)\}$. This is a simple linear chain (path graph).</p>
+
+            <!-- Chain SVG -->
+            <div class="flex justify-center my-1">
+              <svg width="340" height="60" viewBox="0 0 340 60" class="text-xs font-sans">
+                <circle cx="30" cy="30" r="14" fill="#e2e8f0" stroke="#334155" stroke-width="2"/>
+                <text x="30" y="34" text-anchor="middle" font-weight="bold">1</text>
+
+                <line x1="44" y1="30" x2="86" y2="30" stroke="#334155" stroke-width="2"/>
+
+                <circle cx="100" cy="30" r="14" fill="#e2e8f0" stroke="#334155" stroke-width="2"/>
+                <text x="100" y="34" text-anchor="middle" font-weight="bold">2</text>
+
+                <line x1="114" y1="30" x2="156" y2="30" stroke="#334155" stroke-width="2"/>
+
+                <circle cx="170" cy="30" r="14" fill="#e2e8f0" stroke="#334155" stroke-width="2"/>
+                <text x="170" y="34" text-anchor="middle" font-weight="bold">3</text>
+
+                <line x1="184" y1="30" x2="226" y2="30" stroke="#dc2626" stroke-width="2" stroke-dasharray="4"/>
+                <text x="205" y="20" fill="#dc2626" font-size="10" text-anchor="middle">DEL (3,4)</text>
+
+                <circle cx="240" cy="30" r="14" fill="#e2e8f0" stroke="#334155" stroke-width="2"/>
+                <text x="240" y="34" text-anchor="middle" font-weight="bold">4</text>
+
+                <line x1="254" y1="30" x2="296" y2="30" stroke="#334155" stroke-width="2"/>
+
+                <circle cx="310" cy="30" r="14" fill="#e2e8f0" stroke="#334155" stroke-width="2"/>
+                <text x="310" y="34" text-anchor="middle" font-weight="bold">5</text>
+              </svg>
+            </div>
+
+            <div class="space-y-2 text-xs">
+              <div class="p-2 bg-slate-50 border rounded">
+                <strong>1. Connectivity Status Before Edge Deletion:</strong>
+                <p>Path: $1 - 2 - 3 - 4 - 5$. Connected components $= 1$.</p>
+                <p>$\text{Connected}(1, 5) = \mathbf{True}$. A direct simple path of length 4 connects vertex 1 and 5.</p>
+              </div>
+
+              <div class="p-2 bg-red-50 border border-red-200 rounded">
+                <strong>2. Dynamic Edge Update (Delete Edge (3, 4)):</strong>
+                <p>Edge $(3, 4)$ is a <strong>bridge</strong> (cut edge) in the tree topology. Removing $(3, 4)$ decomposes the graph into two disjoint connected components:</p>
+                $$\mathcal{C}_1 = \{1, 2, 3\} \quad \text{and} \quad \mathcal{C}_2 = \{4, 5\}$$
+              </div>
+
+              <div class="p-2 bg-slate-50 border rounded">
+                <strong>3. Connectivity Status After Edge Deletion:</strong>
+                <p>Query $\text{Connected}(1, 5)$: Vertex $1 \in \mathcal{C}_1$ and vertex $5 \in \mathcal{C}_2$. Since $\mathcal{C}_1 \cap \mathcal{C}_2 = \emptyset$ and no alternate paths exist:</p>
+                <p class="font-bold text-red-700">Vertices 1 and 5 are NOT connected (Disconnected / False).</p>
+                <p class="text-slate-500 mt-1"><em>Algorithm Note (as covered in the notes):</em> While a standard Disjoint Set Union (DSU) cannot perform edge deletions without rebuilds, fully dynamic connectivity data structures (like <strong>Euler Tour Trees</strong> or <strong>Link-Cut Trees</strong>) update the tree cut in $\mathcal{O}(\log n)$ or $\mathcal{O}(\log^2 n)$ time.</p>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- M1 Q12 -->
+        <article id="m1-q12" class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 space-y-4">
+          <div class="flex items-start justify-between">
+            <span class="badge bg-blue-100 text-blue-800">Question 12</span>
+          </div>
+          <h3 class="text-lg font-bold text-slate-900">Multi-Stream Bandwidth Allocation between Source and Destination Servers: Congestion Avoidance and Flow Maximization.</h3>
+          
+          <div class="text-slate-700 leading-relaxed space-y-3 text-sm">
+            <p>During peak load, multiple data streams originate from candidate source servers $\{S_1, S_2, \dots\}$ destined for destination nodes $\{T_1, T_2, \dots\}$ across a shared switch fabric.</p>
+            
+            <h4 class="font-bold text-slate-800 text-xs uppercase tracking-wide">Multi-Source Multi-Sink Reduction Formulation:</h4>
+            <div class="space-y-1.5 text-xs">
+              <p>1. <strong>Super-Source ($S^*$):</strong> Construct an artificial super-source $S^*$. Add directed edges from $S^*$ to each source server $S_i$ with capacity $c(S^*, S_i) = \text{Maximum generation bandwidth of } S_i$.</p>
+              <p>2. <strong>Super-Sink ($T^*$):</strong> Construct an artificial super-sink $T^*$. Add directed edges from each destination server $T_j$ to $T^*$ with capacity $c(T_j, T^*) = \text{Maximum ingestion bandwidth of } T_j$.</p>
+              <p>3. <strong>Core Switch Capacities:</strong> Every physical link $(u, v)$ has an inviolable capacity $c(u, v)$ representing its physical port bandwidth limit.</p>
+            </div>
+
+            <div class="bg-indigo-50 border border-indigo-200 p-3 rounded-lg text-xs space-y-1.5">
+              <span class="font-bold text-indigo-900">Preventing Congestion & Maximizing Data Transfer:</span>
+              <p>Applying <strong>Dinic's Algorithm</strong> or <strong>Push-Relabel</strong> guarantees two mathematical properties:</p>
+              <ul class="list-disc pl-4 space-y-1">
+                <li><strong>Zero Congestion (Capacity Adherence):</strong> For every link, $0 \le f(u, v) \le c(u, v)$. No network link is ever oversubscribed.</li>
+                <li><strong>Zero Packet Drop (Flow Conservation):</strong> At every intermediate switch $u$, $\sum f_{in}(u) = \sum f_{out}(u)$, ensuring buffers do not overflow.</li>
+                <li><strong>Maximized System Utilization:</strong> The algorithm finds the global maximum volume of concurrent data streams without heuristic trial-and-error.</li>
+              </ul>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <!-- ========================================================================= -->
+      <!-- MODULE 2 SECTION -->
+      <!-- ========================================================================= -->
+      <section id="module-2" class="space-y-8">
+        <div class="border-b-2 border-indigo-600 pb-3 flex items-center justify-between">
+          <h2 class="text-3xl font-extrabold text-slate-900 tracking-tight">MODULE 2: Strongly Connected Components & Graph Traversals</h2>
+          <span class="badge bg-indigo-100 text-indigo-800">12 Questions</span>
+        </div>
+
+        <!-- M2 Q1 -->
+        <article id="m2-q1" class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 space-y-4">
+          <div class="flex items-start justify-between">
+            <span class="badge bg-purple-100 text-purple-800">Question 1</span>
+          </div>
+          <h3 class="text-lg font-bold text-slate-900">What is a strongly connected component? Give an example.</h3>
+          
+          <div class="text-slate-700 leading-relaxed space-y-3 text-sm">
+            <p>A <strong>Strongly Connected Component (SCC)</strong> of a directed graph $G = (V, E)$ is a <em>maximal subgraph</em> $G' = (V', E')$ such that every vertex in $V'$ is mutually reachable from every other vertex in $V'$. That is, for every pair of vertices $u, v \in V'$, there exists a directed path from $u$ to $v$ and a directed path from $v$ to $u$.</p>
+            
+            <p><em>Maximality</em> implies that no additional vertex from $V \setminus V'$ can be added to the set without violating this mutual reachability property.</p>
+
+            <div class="bg-slate-50 border border-slate-200 p-4 rounded-lg">
+              <h4 class="font-bold text-slate-800 text-xs mb-1">Example from Course Notes (Module 2, Page 49):</h4>
+              <p class="text-xs text-slate-600 mb-2">Consider directed edges $A \to B$, $B \to C$, and $C \to A$.</p>
+              <div class="flex justify-center my-2">
+                <svg width="200" height="90" viewBox="0 0 200 90" class="text-xs font-sans">
+                  <circle cx="40" cy="70" r="14" fill="#e0e7ff" stroke="#4338ca" stroke-width="2"/>
+                  <text x="40" y="74" text-anchor="middle" font-weight="bold">A</text>
+
+                  <circle cx="100" cy="20" r="14" fill="#e0e7ff" stroke="#4338ca" stroke-width="2"/>
+                  <text x="100" y="24" text-anchor="middle" font-weight="bold">B</text>
+
+                  <circle cx="160" cy="70" r="14" fill="#e0e7ff" stroke="#4338ca" stroke-width="2"/>
+                  <text x="160" y="74" text-anchor="middle" font-weight="bold">C</text>
+
+                  <line x1="50" y1="60" x2="90" y2="30" stroke="#4338ca" stroke-width="1.8"/>
+                  <line x1="110" y1="30" x2="150" y2="60" stroke="#4338ca" stroke-width="1.8"/>
+                  <line x1="146" y1="70" x2="54" y2="70" stroke="#4338ca" stroke-width="1.8"/>
+                </svg>
+              </div>
+              <p class="text-xs text-slate-700">
+                - Path $A \to B \to C$: $A$ can reach both $B$ and $C$.<br>
+                - Path $B \to C \to A$: $B$ can reach both $C$ and $A$.<br>
+                - Path $C \to A \to B$: $C$ can reach both $A$ and $B$.<br>
+                Since mutual reachability holds for all pairs, the set $\mathbf{\{A, B, C\}}$ forms an SCC.
+              </p>
+            </div>
+          </div>
+        </article>
+
+        <!-- M2 Q2 -->
+        <article id="m2-q2" class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 space-y-4">
+          <div class="flex items-start justify-between">
+            <span class="badge bg-purple-100 text-purple-800">Question 2</span>
+          </div>
+          <h3 class="text-lg font-bold text-slate-900">Apply the concept of strongly connected components to a directed graph and identify whether a given set of vertices forms an SCC, with justification.</h3>
+          
+          <div class="text-slate-700 leading-relaxed space-y-3 text-sm">
+            <p>To rigorously verify whether a candidate vertex subset $S \subseteq V$ constitutes a Strongly Connected Component, two conditions must be verified:</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+              <div class="bg-slate-50 p-3 rounded border border-slate-200 space-y-1">
+                <span class="font-bold text-slate-800">Condition 1: Mutual Reachability</span>
+                <p>For every ordered pair $(u, v)$ where $u, v \in S$, there must exist a directed path $u \leadsto v$. A single directed disconnect proves that $S$ is <em>not</em> strongly connected.</p>
+              </div>
+
+              <div class="bg-slate-50 p-3 rounded border border-slate-200 space-y-1">
+                <span class="font-bold text-slate-800">Condition 2: Maximality</span>
+                <p>No outside vertex $w \in V \setminus S$ can be added such that $S \cup \{w\}$ is also mutually reachable. If a mutual cycle extends to $w$, then $S$ is only a strongly connected <em>subset</em>, not a component.</p>
+              </div>
+            </div>
+
+            <p class="text-xs bg-indigo-50 border-l-4 border-indigo-500 p-2.5">
+              <strong>Method of Justification:</strong> Perform a localized DFS/BFS from each vertex in $S$ within the subgraph, or compute the transitive closure matrix restricted to $S$. If all entries $M[u][v] = 1$, and all edges exiting $S$ are unidirectional cross-component edges with no return paths, $S$ is confirmed as an SCC.
+            </p>
+          </div>
+        </article>
+
+        <!-- M2 Q3 -->
+        <article id="m2-q3" class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 space-y-4">
+          <div class="flex items-start justify-between">
+            <span class="badge bg-purple-100 text-purple-800">Question 3</span>
+          </div>
+          <h3 class="text-lg font-bold text-slate-900">Given edges 1&to;2, 2&to;3, 3&to;1, 3&to;4, and 4&to;5: Does {1, 2, 3} form an SCC? Justification by path verification.</h3>
+          
+          <div class="text-slate-700 leading-relaxed space-y-3 text-sm">
+            <p>Graph: $V = \{1, 2, 3, 4, 5\}$, Directed Edges: $1 \to 2$, $2 \to 3$, $3 \to 1$, $3 \to 4$, $4 \to 5$.</p>
+            
+            <!-- SVG of Graph -->
+            <div class="flex justify-center my-1">
+              <svg width="340" height="80" viewBox="0 0 340 80" class="text-xs font-sans">
+                <!-- Nodes 1, 2, 3 in circle -->
+                <circle cx="30" cy="50" r="14" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+                <text x="30" y="54" text-anchor="middle" font-weight="bold">1</text>
+
+                <circle cx="90" cy="20" r="14" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+                <text x="90" y="24" text-anchor="middle" font-weight="bold">2</text>
+
+                <circle cx="150" cy="50" r="14" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+                <text x="150" y="54" text-anchor="middle" font-weight="bold">3</text>
+
+                <circle cx="230" cy="50" r="14" fill="#fee2e2" stroke="#dc2626" stroke-width="1.5"/>
+                <text x="230" y="54" text-anchor="middle" font-weight="bold">4</text>
+
+                <circle cx="300" cy="50" r="14" fill="#fee2e2" stroke="#dc2626" stroke-width="1.5"/>
+                <text x="300" y="54" text-anchor="middle" font-weight="bold">5</text>
+
+                <!-- Edges -->
+                <line x1="42" y1="42" x2="78" y2="28" stroke="#16a34a" stroke-width="2"/>
+                <line x1="102" y1="28" x2="138" y2="42" stroke="#16a34a" stroke-width="2"/>
+                <line x1="136" y1="52" x2="44" y2="52" stroke="#16a34a" stroke-width="2"/>
+
+                <line x1="164" y1="50" x2="216" y2="50" stroke="#64748b" stroke-width="1.5"/>
+                <line x1="244" y1="50" x2="286" y2="50" stroke="#64748b" stroke-width="1.5"/>
+              </svg>
+            </div>
+
+            <div class="space-y-2 text-xs">
+              <strong class="text-slate-900">1. Pairwise Reachability within Set $S = \{1, 2, 3\}$:</strong>
+              <ul class="list-disc pl-5 space-y-0.5">
+                <li>From Vertex 1: Path to 2 is $1 \to 2$. Path to 3 is $1 \to 2 \to 3$. (Reachable)</li>
+                <li>From Vertex 2: Path to 3 is $2 \to 3$. Path to 1 is $2 \to 3 \to 1$. (Reachable)</li>
+                <li>From Vertex 3: Path to 1 is $3 \to 1$. Path to 2 is $3 \to 1 \to 2$. (Reachable)</li>
+              </ul>
+              <p>Thus, all vertices in $\{1, 2, 3\}$ are mutually reachable through directed cycle $1 \to 2 \to 3 \to 1$.</p>
+
+              <strong class="text-slate-900">2. Maximality Check:</strong>
+              <ul class="list-disc pl-5 space-y-0.5">
+                <li>Check Vertex 4: Vertex 3 can reach 4 ($3 \to 4$). But node 4 has only an outgoing edge to 5 ($4 \to 5$) and no path back into $\{1, 2, 3\}$. Thus $4 \not\leadsto 1$. Vertex 4 cannot be added.</li>
+                <li>Check Vertex 5: Reached from 4 ($4 \to 5$). Out-degree of 5 is 0. Vertex 5 cannot reach any node in $\{1, 2, 3\}$.</li>
+              </ul>
+
+              <div class="bg-emerald-50 border border-emerald-300 p-2.5 rounded text-emerald-900 font-semibold mt-2">
+                Conclusion: Yes, {1, 2, 3} forms an SCC. It satisfies both mutual reachability and maximality.
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- M2 Q4 -->
+        <article id="m2-q4" class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 space-y-4">
+          <div class="flex items-start justify-between">
+            <span class="badge bg-purple-100 text-purple-800">Question 4</span>
+          </div>
+          <h3 class="text-lg font-bold text-slate-900">Kosaraju's Algorithm on Edges 1&to;2, 2&to;3, 3&to;1, 3&to;4, 4&to;5, and 5&to;4: First DFS, Transpose Graph, Second DFS, and SCC List.</h3>
+          
+          <div class="text-slate-700 leading-relaxed space-y-4 text-sm">
+            <p>Graph: $V = \{1, 2, 3, 4, 5\}$ with edges $1 \to 2, 2 \to 3, 3 \to 1, 3 \to 4, 4 \to 5, 5 \to 4$.</p>
+
+            <div class="space-y-3">
+              <div>
+                <h4 class="font-bold text-slate-800 text-xs uppercase tracking-wide">Step 1: First DFS on Original Graph $G$ (Finishing Time Stack)</h4>
+                <p class="text-xs">Start DFS from Vertex 1:</p>
+                <ul class="list-disc pl-5 text-xs space-y-0.5">
+                  <li>Visit $1 \implies$ go to neighbor $2$.</li>
+                  <li>Visit $2 \implies$ go to neighbor $3$.</li>
+                  <li>Visit $3 \implies$ has neighbors $1$ (already visited) and $4$. Move to $4$.</li>
+                  <li>Visit $4 \implies$ go to neighbor $5$.</li>
+                  <li>Visit $5 \implies$ neighbor $4$ already visited. Node 5 has no further unvisited neighbors.</li>
+                  <li><strong>Finish 5:</strong> Push 5 onto Stack $\implies$ Stack: <code>[5]</code>. Backtrack to 4.</li>
+                  <li><strong>Finish 4:</strong> Node 4 has no other unvisited neighbors. Push 4 $\implies$ Stack: <code>[5, 4]</code>. Backtrack to 3.</li>
+                  <li><strong>Finish 3:</strong> Push 3 $\implies$ Stack: <code>[5, 4, 3]</code>. Backtrack to 2.</li>
+                  <li><strong>Finish 2:</strong> Push 2 $\implies$ Stack: <code>[5, 4, 3, 2]</code>. Backtrack to 1.</li>
+                  <li><strong>Finish 1:</strong> Push 1 $\implies$ Final Stack (Top to Bottom): <code>[1, 2, 3, 4, 5]</code>.</li>
+                </ul>
+              </div>
+
+              <div>
+                <h4 class="font-bold text-slate-800 text-xs uppercase tracking-wide">Step 2: Construct the Transpose Graph $G^T$</h4>
+                <p class="text-xs">Reverse the direction of every directed edge in $G$:</p>
+                <div class="bg-slate-100 p-2 rounded font-mono text-xs">
+                  $G^T$ Edges: 2 &to; 1, 3 &to; 2, 1 &to; 3, 4 &to; 3, 5 &to; 4, 4 &to; 5.
+                </div>
+              </div>
+
+              <div>
+                <h4 class="font-bold text-slate-800 text-xs uppercase tracking-wide">Step 3: Second DFS on $G^T$ in Decreasing Finishing Order</h4>
+                <p class="text-xs">We pop nodes from the stack order: $1, 2, 3, 4, 5$.</p>
+                <ul class="list-disc pl-5 text-xs space-y-1">
+                  <li>
+                    <strong>Pop 1:</strong> Start $\text{DFS}_{G^T}(1)$.
+                    <br>From 1, traverse edge $1 \to 3$.
+                    <br>From 3, traverse edge $3 \to 2$.
+                    <br>From 2, traverse edge $2 \to 1$ (already visited).
+                    <br>From 3, edge to 4 exists in original, but in $G^T$ the edge is $4 \to 3$ (incoming, cannot leave).
+                    <br><span class="font-bold text-indigo-700">First SCC Collected: {1, 3, 2} = {1, 2, 3}.</span>
+                  </li>
+                  <li><strong>Pop 2:</strong> Already visited $\implies$ Skip.</li>
+                  <li><strong>Pop 3:</strong> Already visited $\implies$ Skip.</li>
+                  <li>
+                    <strong>Pop 4:</strong> Not yet visited. Start $\text{DFS}_{G^T}(4)$.
+                    <br>From 4, edges in $G^T$: $4 \to 3$ (node 3 already visited) and $4 \to 5$.
+                    <br>Visit node 5. From 5, edge in $G^T$: $5 \to 4$ (already visited).
+                    <br><span class="font-bold text-indigo-700">Second SCC Collected: {4, 5}.</span>
+                  </li>
+                  <li><strong>Pop 5:</strong> Already visited $\implies$ Skip.</li>
+                </ul>
+              </div>
+
+              <div class="bg-purple-50 border border-purple-200 p-3 rounded text-xs">
+                <strong>Final Result:</strong> The graph has exactly two strongly connected components:
+                <br>$\mathbf{\text{SCC}_1 = \{1, 2, 3\}}$
+                <br>$\mathbf{\text{SCC}_2 = \{4, 5\}}$
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- M2 Q5 -->
+        <article id="m2-q5" class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 space-y-4">
+          <div class="flex items-start justify-between">
+            <span class="badge bg-purple-100 text-purple-800">Question 5</span>
+          </div>
+          <h3 class="text-lg font-bold text-slate-900">Define Eulerian path. What are the necessary conditions for its existence?</h3>
+          
+          <div class="text-slate-700 leading-relaxed space-y-3 text-sm">
+            <p>An <strong>Eulerian Path</strong> (or Euler trail) in a graph is a walk that visits <strong>every edge of the graph exactly once</strong>. Vertices may be revisited multiple times.</p>
+            
+            <p>An <strong>Eulerian Circuit</strong> is an Eulerian path that starts and terminates at the same vertex.</p>
+
+            <h4 class="font-bold text-slate-800 text-xs uppercase tracking-wide">Necessary and Sufficient Conditions (Euler's Theorem for Undirected Graphs):</h4>
+            <div class="overflow-x-auto text-xs">
+              <table class="w-full text-left border border-slate-200 mt-1">
+                <thead class="bg-slate-100">
+                  <tr>
+                    <th class="p-2 border font-semibold">Traversing Object</th>
+                    <th class="p-2 border font-semibold">Connectivity Requirement</th>
+                    <th class="p-2 border font-semibold">Degree Requirement</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="p-2 border font-medium">Eulerian Circuit</td>
+                    <td class="p-2 border">All vertices with non-zero degree belong to a single connected component.</td>
+                    <td class="p-2 border"><strong>Every vertex has an even degree</strong> ($\text{deg}(v) \pmod 2 = 0 \quad \forall v \in V$).</td>
+                  </tr>
+                  <tr>
+                    <td class="p-2 border font-medium">Eulerian Path (Open Trail)</td>
+                    <td class="p-2 border">All vertices with non-zero degree belong to a single connected component.</td>
+                    <td class="p-2 border"><strong>Exactly two vertices have odd degree</strong>, while all remaining vertices have even degree. (The path starts at one odd vertex and ends at the other).</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </article>
+
+        <!-- M2 Q6 -->
+        <article id="m2-q6" class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 space-y-4">
+          <div class="flex items-start justify-between">
+            <span class="badge bg-purple-100 text-purple-800">Question 6</span>
+          </div>
+          <h3 class="text-lg font-bold text-slate-900">Undirected Graph on Vertices A, B, C, D, E with Edges (A,B), (B,C), (C,D), (D,A), (B,D), (D,E), and (E,A): Determine Eulerian Path and Hamiltonian Path.</h3>
+          
+          <div class="text-slate-700 leading-relaxed space-y-3 text-sm">
+            <p>Vertices: $\{A, B, C, D, E\}$. Total edges $= 7$: $(A,B), (B,C), (C,D), (D,A), (B,D), (D,E), (E,A)$.</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <!-- Eulerian Analysis -->
+              <div class="border border-slate-200 p-3 rounded-lg bg-slate-50 text-xs space-y-1.5">
+                <span class="font-bold text-slate-900 text-sm">Part 1: Eulerian Path Evaluation</span>
+                <p>Calculate degrees of all vertices:</p>
+                <ul class="list-disc pl-4 space-y-0.5">
+                  <li>$\text{deg}(A)$: incident to $(A,B), (D,A), (E,A) \implies \mathbf{3}$ (ODD)</li>
+                  <li>$\text{deg}(B)$: incident to $(A,B), (B,C), (B,D) \implies \mathbf{3}$ (ODD)</li>
+                  <li>$\text{deg}(C)$: incident to $(B,C), (C,D) \implies \mathbf{2}$ (EVEN)</li>
+                  <li>$\text{deg}(D)$: incident to $(C,D), (D,A), (B,D), (D,E) \implies \mathbf{4}$ (EVEN)</li>
+                  <li>$\text{deg}(E)$: incident to $(D,E), (E,A) \implies \mathbf{2}$ (EVEN)</li>
+                </ul>
+                <div class="bg-emerald-100 text-emerald-900 p-2 rounded mt-1">
+                  <strong>Eulerian Verdict:</strong> Exactly two vertices have odd degree ($A$ and $B$).
+                  <br>Therefore, an <strong>Eulerian Path EXISTS</strong>.
+                  <br>Valid Path Example (starts at A, ends at B):
+                  <br>$\mathbf{A \to E \to D \to C \to B \to D \to A \to B}$.
+                  <br>Edges used: (A,E), (E,D), (D,C), (C,B), (B,D), (D,A), (A,B) = all 7 edges visited once.
+                </div>
+              </div>
+
+              <!-- Hamiltonian Analysis -->
+              <div class="border border-slate-200 p-3 rounded-lg bg-slate-50 text-xs space-y-1.5">
+                <span class="font-bold text-slate-900 text-sm">Part 2: Hamiltonian Path Evaluation</span>
+                <p>A Hamiltonian Path must visit <strong>every vertex exactly once</strong> (no vertex revisits allowed).</p>
+                <p>Total vertices $|V| = 5$. We search for a simple path of length 4 edges containing all 5 vertices.</p>
+                <div class="bg-indigo-100 text-indigo-900 p-2 rounded mt-1">
+                  <strong>Hamiltonian Verdict:</strong> 
+                  <br>Candidate sequence: $\mathbf{C \to B \to D \to E \to A}$.
+                  <br>Verification:
+                  <ul class="list-disc pl-4 mt-0.5 space-y-0.5">
+                    <li>$(C, B) \in E$ &#10003;</li>
+                    <li>$(B, D) \in E$ &#10003;</li>
+                    <li>$(D, E) \in E$ &#10003;</li>
+                    <li>$(E, A) \in E$ &#10003;</li>
+                  </ul>
+                  Every vertex $\{C, B, D, E, A\}$ appears exactly once without repetition.
+                  <br>Therefore, a <strong>Hamiltonian Path EXISTS</strong>.
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- M2 Q7 -->
+        <article id="m2-q7" class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 space-y-4">
+          <div class="flex items-start justify-between">
+            <span class="badge bg-purple-100 text-purple-800">Question 7</span>
+          </div>
+          <h3 class="text-lg font-bold text-slate-900">Given Edges (1,2), (2,3), (3,4), (4,1), and (2,4): Determine Eulerian Path Existence via Odd-Degree Vertex Analysis.</h3>
+          
+          <div class="text-slate-700 leading-relaxed space-y-3 text-sm">
+            <p>Graph $G = (V, E)$ with vertices $V = \{1, 2, 3, 4\}$ and edges $E = \{(1,2), (2,3), (3,4), (4,1), (2,4)\}$. Total edges $= 5$.</p>
+            
+            <p><strong>Step 1: Compute degree for every vertex:</strong></p>
+            <ul class="list-disc pl-5 text-xs space-y-1">
+              <li>Vertex 1: incident edges $(1,2)$ and $(4,1) \implies \text{deg}(1) = \mathbf{2}$ (EVEN)</li>
+              <li>Vertex 2: incident edges $(1,2), (2,3),$ and diagonal $(2,4) \implies \text{deg}(2) = \mathbf{3}$ (ODD)</li>
+              <li>Vertex 3: incident edges $(2,3)$ and $(3,4) \implies \text{deg}(3) = \mathbf{2}$ (EVEN)</li>
+              <li>Vertex 4: incident edges $(3,4), (4,1),$ and diagonal $(2,4) \implies \text{deg}(4) = \mathbf{3}$ (ODD)</li>
+            </ul>
+
+            <div class="bg-indigo-50 border border-indigo-200 p-3 rounded text-xs space-y-1.5">
+              <p><strong>Step 2: Compare against Euler's Conditions:</strong></p>
+              <ul class="list-disc pl-4 space-y-0.5">
+                <li>Total odd-degree vertices count $= 2$ (namely, vertex 2 and vertex 4).</li>
+                <li>The graph is connected.</li>
+              </ul>
+              <p class="font-bold text-emerald-800">Conclusion: An Eulerian Path DOES EXIST.</p>
+              <p>Because there are exactly 2 odd-degree vertices, any Eulerian path must start at one odd vertex (2 or 4) and finish at the other.</p>
+              <p class="font-mono bg-white p-1.5 border rounded">Example Trail: 2 &to; 1 &to; 4 &to; 3 &to; 2 &to; 4</p>
+              <p class="text-slate-500 text-[11px]">(Edges used: (2,1), (1,4), (4,3), (3,2), (2,4) — exactly all 5 edges visited once).</p>
+            </div>
+          </div>
+        </article>
+
+        <!-- M2 Q8 -->
+        <article id="m2-q8" class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 space-y-4">
+          <div class="flex items-start justify-between">
+            <span class="badge bg-purple-100 text-purple-800">Question 8</span>
+          </div>
+          <h3 class="text-lg font-bold text-slate-900">Describe Tarjan's Algorithm for finding strongly connected components.</h3>
+          
+          <div class="text-slate-700 leading-relaxed space-y-3 text-sm">
+            <p><strong>Tarjan's Algorithm</strong> finds all strongly connected components of a directed graph in a <strong>single Depth-First Search (DFS) pass</strong> with linear time complexity $\mathcal{O}(V + E)$.</p>
+            
+            <h4 class="font-bold text-slate-800 text-xs uppercase tracking-wide">Four Fundamental Core Concepts (from Course Notes, Pages 50–51):</h4>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+              <div class="p-2.5 bg-slate-50 rounded border">
+                <strong>1. Discovery Time ($\text{disc}[u]$):</strong>
+                <p>An integer timestamp recording exactly when vertex $u$ is first discovered during the DFS traversal.</p>
+              </div>
+              <div class="p-2.5 bg-slate-50 rounded border">
+                <strong>2. Low-Link Value ($\text{low}[u]$):</strong>
+                <p>The smallest discovery time reachable from $u$ through its DFS subtree and at most one back-edge to an active stack vertex.</p>
+              </div>
+              <div class="p-2.5 bg-slate-50 rounded border">
+                <strong>3. Exploration Stack:</strong>
+                <p>Maintains the active search path. Vertices stay on the stack until an entire SCC has finished exploring.</p>
+              </div>
+              <div class="p-2.5 bg-slate-50 rounded border">
+                <strong>4. Root of an SCC ($\text{disc}[u] == \text{low}[u]$):</strong>
+                <p>When DFS unwinds to a vertex where discovery equals low-link, $u$ is the anchor/root of an SCC. Nodes are popped until $u$ is removed.</p>
+              </div>
+            </div>
+
+            <h4 class="font-bold text-slate-800 text-xs uppercase tracking-wide mt-2">Low-Link Update Rules:</h4>
+            <div class="bg-slate-100 p-2.5 rounded font-mono text-xs space-y-1">
+              <p>For each outgoing edge $(u, v)$:</p>
+              <p>1. If $v$ is <em>unvisited</em>: recursively call DFS$(v)$, then backtrack:
+                $$\text{low}[u] = \min(\text{low}[u], \text{low}[v])$$
+              </p>
+              <p>2. If $v$ is <em>already visited and currently on Stack</em> (Back Edge):
+                $$\text{low}[u] = \min(\text{low}[u], \text{disc}[v])$$
+              </p>
+            </div>
+          </div>
+        </article>
+
+        <!-- M2 Q9 -->
+        <article id="m2-q9" class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 space-y-4">
+          <div class="flex items-start justify-between">
+            <span class="badge bg-purple-100 text-purple-800">Question 9</span>
+          </div>
+          <h3 class="text-lg font-bold text-slate-900">Tarjan's Algorithm: Compute Low-Link Values for Directed Graph 1&to;2, 2&to;3, 3&to;1, 3&to;4, 4&to;5, 5&to;4.</h3>
+          
+          <div class="text-slate-700 leading-relaxed space-y-3 text-sm">
+            <p>We trace Tarjan's algorithm step-by-step exactly matching the execution trace from pages 63–70 of the class notebook:</p>
+
+            <div class="overflow-x-auto">
+              <table class="w-full text-xs text-left border border-slate-200">
+                <thead class="bg-slate-100">
+                  <tr>
+                    <th class="p-2 border">Step</th>
+                    <th class="p-2 border">Node Action</th>
+                    <th class="p-2 border">disc</th>
+                    <th class="p-2 border">low</th>
+                    <th class="p-2 border">Stack</th>
+                    <th class="p-2 border">Explanation / Low Update</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-200">
+                  <tr>
+                    <td class="p-2 border font-medium">1</td>
+                    <td class="p-2 border">Visit 1</td>
+                    <td class="p-2 border">1</td>
+                    <td class="p-2 border">1</td>
+                    <td class="p-2 border">[1]</td>
+                    <td class="p-2 border">Pushed to stack. Move to neighbor 2.</td>
+                  </tr>
+                  <tr>
+                    <td class="p-2 border font-medium">2</td>
+                    <td class="p-2 border">Visit 2</td>
+                    <td class="p-2 border">2</td>
+                    <td class="p-2 border">2</td>
+                    <td class="p-2 border">[1, 2]</td>
+                    <td class="p-2 border">Pushed to stack. Move to neighbor 3.</td>
+                  </tr>
+                  <tr>
+                    <td class="p-2 border font-medium">3</td>
+                    <td class="p-2 border">Visit 3</td>
+                    <td class="p-2 border">3</td>
+                    <td class="p-2 border">3</td>
+                    <td class="p-2 border">[1, 2, 3]</td>
+                    <td class="p-2 border">Pushed to stack. Discovers back-edge $3 \to 1$.</td>
+                  </tr>
+                  <tr>
+                    <td class="p-2 border font-medium">4</td>
+                    <td class="p-2 border">Edge $3 \to 1$</td>
+                    <td class="p-2 border">3</td>
+                    <td class="p-2 border font-bold text-blue-700">1</td>
+                    <td class="p-2 border">[1, 2, 3]</td>
+                    <td class="p-2 border">Back-edge to 1: $\text{low}[3] = \min(\text{low}[3], \text{disc}[1]) = \min(3, 1) = 1$.</td>
+                  </tr>
+                  <tr>
+                    <td class="p-2 border font-medium">5</td>
+                    <td class="p-2 border">Visit 4</td>
+                    <td class="p-2 border">4</td>
+                    <td class="p-2 border">4</td>
+                    <td class="p-2 border">[1, 2, 3, 4]</td>
+                    <td class="p-2 border">Unvisited neighbor of 3. Pushed to stack. Move to 5.</td>
+                  </tr>
+                  <tr>
+                    <td class="p-2 border font-medium">6</td>
+                    <td class="p-2 border">Visit 5</td>
+                    <td class="p-2 border">5</td>
+                    <td class="p-2 border">5</td>
+                    <td class="p-2 border">[1, 2, 3, 4, 5]</td>
+                    <td class="p-2 border">Pushed to stack. Explores edge $5 \to 4$.</td>
+                  </tr>
+                  <tr>
+                    <td class="p-2 border font-medium">7</td>
+                    <td class="p-2 border">Edge $5 \to 4$</td>
+                    <td class="p-2 border">5</td>
+                    <td class="p-2 border font-bold text-blue-700">4</td>
+                    <td class="p-2 border">[1, 2, 3, 4, 5]</td>
+                    <td class="p-2 border">Back-edge to 4: $\text{low}[5] = \min(\text{low}[5], \text{disc}[4]) = \min(5, 4) = 4$.</td>
+                  </tr>
+                  <tr>
+                    <td class="p-2 border font-medium">8</td>
+                    <td class="p-2 border">Backtrack to 4</td>
+                    <td class="p-2 border">4</td>
+                    <td class="p-2 border">4</td>
+                    <td class="p-2 border">[1, 2, 3, 4, 5]</td>
+                    <td class="p-2 border">$\text{low}[4] = \min(\text{low}[4], \text{low}[5]) = \min(4, 4) = 4$.</td>
+                  </tr>
+                  <tr class="bg-amber-50">
+                    <td class="p-2 border font-medium">9</td>
+                    <td class="p-2 border">Root Check 4</td>
+                    <td class="p-2 border">4</td>
+                    <td class="p-2 border">4</td>
+                    <td class="p-2 border font-semibold text-red-700">[1, 2, 3]</td>
+                    <td class="p-2 border font-bold text-amber-800">$\text{disc}[4] == \text{low}[4] \implies$ Pop stack until 4 removed: SCC = {5, 4}.</td>
+                  </tr>
+                  <tr>
+                    <td class="p-2 border font-medium">10</td>
+                    <td class="p-2 border">Backtrack to 3</td>
+                    <td class="p-2 border">3</td>
+                    <td class="p-2 border font-bold text-blue-700">1</td>
+                    <td class="p-2 border">[1, 2, 3]</td>
+                    <td class="p-2 border">$\text{low}[3] = \min(1, \text{low}[4]) = \min(1, 4) = 1$. $\text{disc}[3] \ne \text{low}[3]$.</td>
+                  </tr>
+                  <tr>
+                    <td class="p-2 border font-medium">11</td>
+                    <td class="p-2 border">Backtrack to 2</td>
+                    <td class="p-2 border">2</td>
+                    <td class="p-2 border font-bold text-blue-700">1</td>
+                    <td class="p-2 border">[1, 2, 3]</td>
+                    <td class="p-2 border">$\text{low}[2] = \min(\text{low}[2], \text{low}[3]) = \min(2, 1) = 1$. $\text{disc}[2] \ne \text{low}[2]$.</td>
+                  </tr>
+                  <tr>
+                    <td class="p-2 border font-medium">12</td>
+                    <td class="p-2 border">Backtrack to 1</td>
+                    <td class="p-2 border">1</td>
+                    <td class="p-2 border font-bold text-blue-700">1</td>
+                    <td class="p-2 border">[1, 2, 3]</td>
+                    <td class="p-2 border">$\text{low}[1] = \min(\text{low}[1], \text{low}[2]) = \min(1, 1) = 1$.</td>
+                  </tr>
+                  <tr class="bg-amber-50">
+                    <td class="p-2 border font-medium">13</td>
+                    <td class="p-2 border">Root Check 1</td>
+                    <td class="p-2 border">1</td>
+                    <td class="p-2 border">1</td>
+                    <td class="p-2 border font-semibold text-red-700">[] (Empty)</td>
+                    <td class="p-2 border font-bold text-amber-800">$\text{disc}[1] == \text{low}[1] \implies$ Pop stack until 1 removed: SCC = {3, 2, 1}.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="bg-indigo-50 border border-indigo-200 p-3 rounded text-xs space-y-1">
+              <strong class="text-indigo-900">Final Low-Link Summary Table (as in Notes Page 70):</strong>
+              <div class="grid grid-cols-5 gap-2 text-center font-mono mt-1">
+                <div class="bg-white p-1 rounded border">Node 1: low = <strong>1</strong></div>
+                <div class="bg-white p-1 rounded border">Node 2: low = <strong>1</strong></div>
+                <div class="bg-white p-1 rounded border">Node 3: low = <strong>1</strong></div>
+                <div class="bg-white p-1 rounded border">Node 4: low = <strong>4</strong></div>
+                <div class="bg-white p-1 rounded border">Node 5: low = <strong>4</strong></div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- M2 Q10 -->
+        <article id="m2-q10" class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 space-y-4">
+          <div class="flex items-start justify-between">
+            <span class="badge bg-purple-100 text-purple-800">Question 10</span>
+          </div>
+          <h3 class="text-lg font-bold text-slate-900">Tarjan's Algorithm on 7-Vertex Graph: Edges 1&to;2, 2&to;3, 2&to;4, 3&to;1, 4&to;5, 5&to;6, 6&to;4, 6&to;7. Complete Step-by-Step Execution.</h3>
+          
+          <div class="text-slate-700 leading-relaxed space-y-3 text-sm">
+            <p>Vertices: $\{1, 2, 3, 4, 5, 6, 7\}$. Two major directed cycles are apparent: $\{1, 2, 3\}$ and $\{4, 5, 6\}$, with a terminal pendant node $7$.</p>
+
+            <div class="space-y-2 text-xs">
+              <div class="border rounded p-2.5 bg-slate-50 space-y-1">
+                <strong>Phase 1: Traversal of Branch 1 &to; 2 &to; 4 &to; 5 &to; 6 &to; 7</strong>
+                <p>- DFS visits $1(\text{d}=1), 2(\text{d}=2), 4(\text{d}=3), 5(\text{d}=4), 6(\text{d}=5), 7(\text{d}=6)$.</p>
+                <p>- Stack: <code>[1, 2, 4, 5, 6, 7]</code>.</p>
+                <p>- Node 7 has no outgoing edges. $\text{low}[7] = 6 = \text{disc}[7]$.</p>
+                <p class="font-bold text-indigo-700">Root condition triggered at 7: Pop 7 $\implies$ $\mathbf{\text{SCC}_1 = \{7\}}$.</p>
+              </div>
+
+              <div class="border rounded p-2.5 bg-slate-50 space-y-1">
+                <strong>Phase 2: Cycle Closing at 6 &to; 4</strong>
+                <p>- Backtrack to 6: explores edge $6 \to 4$. Node 4 is currently on Stack with $\text{disc}[4] = 3$.</p>
+                <p>- Back-edge update: $\text{low}[6] = \min(\text{low}[6], \text{disc}[4]) = \min(5, 3) = 3$.</p>
+                <p>- Backtrack to 5: $\text{low}[5] = \min(\text{low}[5], \text{low}[6]) = \min(4, 3) = 3$.</p>
+                <p>- Backtrack to 4: $\text{low}[4] = \min(\text{low}[4], \text{low}[5]) = \min(3, 3) = 3$.</p>
+                <p class="font-bold text-indigo-700">Root condition triggered at 4: $\text{disc}[4] == \text{low}[4] == 3$.</p>
+                <p>- Pop stack down to 4: Pop 6, Pop 5, Pop 4 $\implies$ $\mathbf{\text{SCC}_2 = \{4, 5, 6\}}$.</p>
+              </div>
+
+              <div class="border rounded p-2.5 bg-slate-50 space-y-1">
+                <strong>Phase 3: Backtrack to 2 and Explore Branch 2 &to; 3 &to; 1</strong>
+                <p>- Backtrack to 2: $\text{low}[2]$ remains $\min(2, \text{low}[4]) = \min(2, 3) = 2$.</p>
+                <p>- Explore alternate outgoing branch from 2: edge $2 \to 3$.</p>
+                <p>- Visit 3: $\text{disc}[3] = 7, \text{low}[3] = 7$. Push 3 $\implies$ Stack: <code>[1, 2, 3]</code>.</p>
+                <p>- From 3, edge $3 \to 1$: Node 1 is on stack with $\text{disc}[1] = 1$.</p>
+                <p>- Back-edge update: $\text{low}[3] = \min(7, \text{disc}[1]) = \min(7, 1) = 1$.</p>
+                <p>- Backtrack to 2: $\text{low}[2] = \min(\text{low}[2], \text{low}[3]) = \min(2, 1) = 1$.</p>
+                <p>- Backtrack to 1: $\text{low}[1] = \min(\text{low}[1], \text{low}[2]) = \min(1, 1) = 1$.</p>
+                <p class="font-bold text-indigo-700">Root condition triggered at 1: $\text{disc}[1] == \text{low}[1] == 1$.</p>
+                <p>- Pop stack down to 1: Pop 3, Pop 2, Pop 1 $\implies$ $\mathbf{\text{SCC}_3 = \{1, 2, 3\}}$.</p>
+              </div>
+            </div>
+
+            <div class="bg-purple-50 border border-purple-200 p-2.5 rounded text-xs">
+              <strong>Final SCC Decomposition:</strong> Three SCCs are identified:
+              $\mathbf{\{7\}}$, $\mathbf{\{4, 5, 6\}}$, and $\mathbf{\{1, 2, 3\}}$.
+            </div>
+          </div>
+        </article>
+
+        <!-- M2 Q11 -->
+        <article id="m2-q11" class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 space-y-4">
+          <div class="flex items-start justify-between">
+            <span class="badge bg-purple-100 text-purple-800">Question 11</span>
+          </div>
+          <h3 class="text-lg font-bold text-slate-900">What are dynamic connectivity algorithms? Explain their significance.</h3>
+          
+          <div class="text-slate-700 leading-relaxed space-y-3 text-sm">
+            <p><strong>Dynamic Connectivity Algorithms</strong> maintain information about the connected components of a graph whose edge topology undergoes online insertions and deletions over time, answering queries of the form $\text{Connected}(u, v)$ efficiently without recomputing from scratch.</p>
+
+            <h4 class="font-bold text-slate-800 text-xs uppercase tracking-wide">Three Classes of Dynamic Connectivity (from Notes Page 81):</h4>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+              <div class="p-3 bg-slate-50 border rounded-lg">
+                <strong>1. Incremental</strong>
+                <p class="mt-1 text-slate-600">Edges are strictly <em>added</em> over time. Solved optimally via <strong>Disjoint Set Union (DSU / Union-Find)</strong> with near-constant amortized time $\mathcal{O}(\alpha(n))$ per query.</p>
+              </div>
+              <div class="p-3 bg-slate-50 border rounded-lg">
+                <strong>2. Decremental</strong>
+                <p class="mt-1 text-slate-600">Edges are strictly <em>deleted</em> from an initially complete graph. Requires specialized tree structures to efficiently detect when bridges break components.</p>
+              </div>
+              <div class="p-3 bg-slate-50 border rounded-lg">
+                <strong>3. Fully Dynamic</strong>
+                <p class="mt-1 text-slate-600">Both <em>insertions</em> and <em>deletions</em> of edges are supported in arbitrary interleaved sequences.</p>
+              </div>
+            </div>
+
+            <div class="bg-slate-50 border border-slate-200 p-3 rounded-lg text-xs space-y-1">
+              <span class="font-bold text-slate-800">Computational Significance:</span>
+              <p>Re-running complete BFS/DFS after every link event costs $\mathcal{O}(V + E)$ time per update—completely impractical for high-frequency telecommunications switches, real-time social networks, or distributed cloud fabrics. Advanced data structures like <strong>Holm-de Lichtenberg-Thorup (HDT)</strong>, <strong>Link-Cut Trees</strong>, and <strong>Euler Tour Trees</strong> maintain spanning forests supporting fully dynamic updates in $\mathcal{O}(\log^2 V)$ or $\mathcal{O}(\log V)$ time.</p>
+            </div>
+          </div>
+        </article>
+
+        <!-- M2 Q12 -->
+        <article id="m2-q12" class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 space-y-4">
+          <div class="flex items-start justify-between">
+            <span class="badge bg-purple-100 text-purple-800">Question 12</span>
+          </div>
+          <h3 class="text-lg font-bold text-slate-900">Given Directed Graph 1&to;2, 2&to;3, 3&to;1, 3&to;4, 4&to;5, 5&to;4: Identify all SCCs and Construct the Condensation Graph.</h3>
+          
+          <div class="text-slate-700 leading-relaxed space-y-4 text-sm">
+            <p>Edges: $1 \to 2$, $2 \to 3$, $3 \to 1$, $3 \to 4$, $4 \to 5$, $5 \to 4$.</p>
+
+            <div class="space-y-2">
+              <h4 class="font-bold text-slate-800 text-xs uppercase tracking-wide">1. SCC Identification:</h4>
+              <ul class="list-disc pl-5 text-xs space-y-1">
+                <li>Cycle $1 \to 2 \to 3 \to 1$ connects nodes 1, 2, and 3 mutually $\implies \mathbf{C_1 = \{1, 2, 3\}}$.</li>
+                <li>Cycle $4 \to 5 \to 4$ connects nodes 4 and 5 mutually $\implies \mathbf{C_2 = \{4, 5\}}$.</li>
+              </ul>
+            </div>
+
+            <div class="space-y-2">
+              <h4 class="font-bold text-slate-800 text-xs uppercase tracking-wide">2. Condensation Graph Construction:</h4>
+              <p class="text-xs">
+                A <strong>Condensation Graph</strong> $G^{\text{SCC}} = (V^{\text{SCC}}, E^{\text{SCC}})$ contracts each strongly connected component into a single representative meta-vertex. Directed edges exist between meta-vertices if and only if there exists at least one directed edge between their constituent vertices in the original graph.
+              </p>
+              <ul class="list-disc pl-5 text-xs space-y-1">
+                <li>Meta-Vertices: $V^{\text{SCC}} = \{C_1, C_2\}$, where $C_1 = \{1, 2, 3\}$ and $C_2 = \{4, 5\}$.</li>
+                <li>Examine cross-component edges: The only directed edge connecting the two sets is $\mathbf{3 \to 4}$ (from a vertex in $C_1$ to a vertex in $C_2$).</li>
+                <li>Meta-Edges: $E^{\text{SCC}} = \{(C_1, C_2)\}$.</li>
+              </ul>
+            </div>
+
+            <!-- Condensation SVG -->
+            <div class="flex justify-center my-3">
+              <div class="p-4 bg-slate-50 border border-slate-200 rounded-lg text-center">
+                <span class="text-xs font-semibold text-slate-600 block mb-2">Condensation Graph (Directed Acyclic Graph - DAG)</span>
+                <svg width="280" height="70" viewBox="0 0 280 70" class="text-xs font-sans">
+                  <!-- Meta-node C1 -->
+                  <rect x="20" y="15" width="90" height="40" rx="8" fill="#e0e7ff" stroke="#3730a3" stroke-width="2"/>
+                  <text x="65" y="32" text-anchor="middle" font-weight="bold" fill="#312e81">C₁</text>
+                  <text x="65" y="46" text-anchor="middle" font-size="10" fill="#4338ca">{1, 2, 3}</text>
+
+                  <!-- Directed Meta-Edge -->
+                  <line x1="110" y1="35" x2="162" y2="35" stroke="#475569" stroke-width="2"/>
+                  <polygon points="170,35 160,30 160,40" fill="#475569"/>
+                  <text x="140" y="27" text-anchor="middle" font-size="10" font-weight="bold" fill="#64748b">edge (3,4)</text>
+
+                  <!-- Meta-node C2 -->
+                  <rect x="170" y="15" width="90" height="40" rx="8" fill="#dcfce7" stroke="#166534" stroke-width="2"/>
+                  <text x="215" y="32" text-anchor="middle" font-weight="bold" fill="#14532d">C₂</text>
+                  <text x="215" y="46" text-anchor="middle" font-size="10" fill="#15803d">{4, 5}</text>
+                </svg>
+              </div>
+            </div>
+
+            <div class="bg-indigo-50 border border-indigo-200 p-3 rounded text-xs">
+              <p><strong>Fundamental Mathematical Property:</strong> The condensation graph $G^{\text{SCC}}$ is <em>guaranteed to be a Directed Acyclic Graph (DAG)</em>. If it contained any directed cycle, all meta-nodes on that cycle would merge into one larger SCC, contradicting maximality.</p>
+            </div>
+          </div>
+        </article>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-slate-900 text-slate-400 text-xs py-6 mt-12 border-t border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-3 text-center md:text-left">
+      <p>Graph Algorithms & Applications | Reference Solutions aligned with Course Lecture Notebook.</p>
+      <p class="text-slate-300 font-mono">Push-Relabel &bull; Dinic &bull; Min-Cost Flow &bull; Tarjan &bull; Kosaraju &bull; Euler</p>
+    </div>
+  </footer>
+
+  <!-- Marker SVG definitions for sharp arrows -->
+  <svg style="position: absolute; width: 0; height: 0; overflow: hidden;" version="1.1" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <marker id="arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#64748b" />
+      </marker>
+    </defs>
+  </svg>
+</body>
+</html>
